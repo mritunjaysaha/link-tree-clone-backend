@@ -79,8 +79,8 @@ exports.isAuthenticated = (req, res, next) => {
     // if profile._id sent from frontend is same as auth._id then
     // the user to change things from his own account
 
-    let checker = req.profile && req.auth && req.profile._id === req.auth._id;
-
+    let checker =
+        req.profile && req.auth && req.profile._id.toString() === req.auth._id;
     if (!checker) {
         return res.status(403).json({ error: "ACCESS DENIED" });
     }

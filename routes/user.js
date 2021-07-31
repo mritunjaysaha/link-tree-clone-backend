@@ -14,18 +14,18 @@ const { isAuthenticated, isSignedIn } = require("../controllers/auth");
 router.param("userId", getUserById);
 
 /**
- * @route GET /api/user/:userId
- * @description get the user details
- * @access private
- */
-router.get("/:userId", isSignedIn, isAuthenticated, getUser);
-
-/**
  * @route GET /api/user/
  * @description get all users
  * @access public
  */
 router.get("/", getAllUsers);
+
+/**
+ * @route GET /api/user/:userId
+ * @description get the user details
+ * @access private
+ */
+router.get("/:userId", isSignedIn, isAuthenticated, getUser);
 
 /**
  * @route PUT /api/user/:userId

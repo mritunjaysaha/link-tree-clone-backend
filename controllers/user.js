@@ -7,10 +7,9 @@ exports.getUserById = (req, res, next, id) => {
                 error: "No user found in DB",
             });
         }
+        req.profile = user;
+        next();
     });
-
-    req.profile = user;
-    next();
 };
 
 exports.getUser = (req, res) => {
@@ -47,7 +46,7 @@ exports.updateUser = (req, res) => {
             }
 
             user.salt = undefined;
-            user.encry_password = undefined;
+            user.encrypted_password = undefined;
             user.createdAt = undefined;
             user.updatedAt = undefined;
 
@@ -56,6 +55,7 @@ exports.updateUser = (req, res) => {
     );
 };
 
+// TODO: test this route
 exports.getLinkList = (req, res) => {
     User.findById(req.profile._id)
         .populate("links")
