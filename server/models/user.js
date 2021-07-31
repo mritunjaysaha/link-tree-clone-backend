@@ -23,10 +23,12 @@ const UserSchema = new Schema(
             required: true,
         },
         salt: String,
-        links: {
-            type: Array,
-            default: [],
-        },
+        links: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: "Link",
+            },
+        ],
     },
     { timestamps: true }
 );
