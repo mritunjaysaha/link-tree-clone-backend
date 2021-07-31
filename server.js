@@ -6,6 +6,7 @@ const { connectDB } = require("./config/db");
 
 // my routes
 const authRoutes = require("./routes/auth");
+const userRoutes = require("./routes/user");
 
 // initialize app
 const app = express();
@@ -21,6 +22,7 @@ app.use(express.json({ extend: false }));
 // my routes
 app.get("/", (req, res) => res.send("Server is active"));
 app.use("/api", authRoutes);
+app.use("/api/user", userRoutes);
 // setting PORT
 
 const PORT = process.env.PORT || 9000;
