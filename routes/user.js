@@ -4,7 +4,7 @@ const router = express.Router();
 const {
     getUser,
     getUserById,
-    getLinkList,
+    getLinksList,
     getAllUsers,
     updateUser,
 } = require("../controllers/user");
@@ -33,12 +33,5 @@ router.get("/:userId", isSignedIn, isAuthenticated, getUser);
  * @access private
  */
 router.put("/:userId", isSignedIn, isAuthenticated, updateUser);
-
-/**
- * @route GET /api/user/links/:userId
- * @description get all the links created by the user
- * @access private
- */
-router.get("/links/:userId", isSignedIn, isAuthenticated, getLinkList);
 
 module.exports = router;

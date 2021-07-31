@@ -54,19 +54,3 @@ exports.updateUser = (req, res) => {
         }
     );
 };
-
-// TODO: test this route
-exports.getLinkList = (req, res) => {
-    User.findById(req.profile._id)
-        .populate("links")
-        .exec((err, user) => {
-            if (err) {
-                return res.status(400).json({
-                    message: "Failed to get links",
-                    error: err.message,
-                });
-            }
-
-            return res.json(user);
-        });
-};
