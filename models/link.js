@@ -6,11 +6,11 @@ const LinkSchema = new Schema(
     {
         name: { type: String },
         url: { type: String },
-        display: { data: Buffer, contentType: String },
         author: {
             type: Schema.Types.ObjectId,
             ref: "User",
         },
+        thumbnail: { type: String },
     },
     { timestamps: true }
 );
