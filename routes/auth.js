@@ -20,7 +20,7 @@ router.post(
 );
 
 router.post(
-    "/signin",
+    "/login",
     [
         check("email", "email is required").isEmail(),
         check("password", "password field is required").isLength({
@@ -30,7 +30,7 @@ router.post(
     signIn
 );
 
-router.get("/signout", signOut);
+router.get("/logout", signOut);
 
 router.get("/test", isSignedIn, (req, res) => {
     res.json(req.auth);
