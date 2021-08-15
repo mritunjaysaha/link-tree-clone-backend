@@ -14,7 +14,7 @@ router.post(
                 max: 32,
             })
             .custom((value) => {
-                return User.find({ name: value }).then((user) => {
+                return User.findOne({ name: value }).then((user) => {
                     if (user) {
                         return Promise.reject("Name already in use");
                     }
