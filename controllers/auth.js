@@ -28,15 +28,18 @@ exports.signUp = (req, res) => {
 
 exports.signIn = (req, res) => {
     const errors = validationResult(req);
-    const { email, password } = req.body;
+
+    console.log({ errors });
 
     if (!errors.isEmpty()) {
         return res.status(400).json({
-            error: error.array()[0].msg,
+            error: errors.array()[0].msg,
         });
     }
 
-    User.findOne({ email }, (err, user) => {
+    const { name, password } = req.body;
+
+    User.findOne({ name }, (err, user) => {
         if (err || !user) {
             return res.status(400).json({
                 error: "USER email doesn't exist",

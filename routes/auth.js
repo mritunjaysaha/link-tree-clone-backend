@@ -3,14 +3,23 @@ const router = express.Router();
 const { check } = require("express-validator");
 
 const { signUp, signIn, signOut, isSignedIn } = require("../controllers/auth");
+const User = require("../models/user");
 
 router.post(
     "/signup",
     [
-        check("name", "name should be at least 3 character").isLength({
-            min: 3,
-            max: 32,
-        }),
+        check("name", "name should be at least 3 character")
+            .isLength({
+                min: 3,
+                max: 32,
+            })
+            .custom((value) => {
+                return User.find({ name: value }).then((user) => {
+                    if (user) {
+                        return Promise.reject("Name already in use");
+                    }
+                });
+            }),
         check("email", "email is required").isEmail(),
         check("password", "password should be at least 3 char").isLength({
             min: 3,
@@ -22,7 +31,7 @@ router.post(
 router.post(
     "/login",
     [
-        check("email", "email is required").isEmail(),
+        check("name", "name is required").notEmpty(),
         check("password", "password field is required").isLength({
             min: 1,
         }),

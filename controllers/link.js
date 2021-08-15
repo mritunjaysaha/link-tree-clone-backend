@@ -6,8 +6,6 @@ exports.createLink = (req, res) => {
 
     newLink.save();
 
-    console.log({ newLink });
-
     User.findByIdAndUpdate(
         req.profile._id,
         { $push: { links: newLink._id } },
