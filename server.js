@@ -24,7 +24,7 @@ app.use(express.json({ extend: false }));
 app.get("/", (req, res) => res.send("Server is active"));
 app.use("/api", authRoutes);
 app.use("/api/user", userRoutes);
-app.use("/api/user/link", linkRoutes);
+app.use("/api/link", linkRoutes);
 // setting PORT
 
 const PORT = process.env.PORT || 9000;

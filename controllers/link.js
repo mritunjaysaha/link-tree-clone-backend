@@ -40,4 +40,14 @@ exports.getLinksList = (req, res) => {
 
 exports.updateLink = (req, res) => {};
 
-exports.deleteLink = (req, res) => {};
+exports.deleteLink = (req, res) => {
+    Link.findByIdAndRemove(req.params.linkId)
+        .then((data) =>
+            res.json({ message: "Link deleted successfully", data })
+        )
+        .catch((err) =>
+            res
+                .json(404)
+                .json({ error: "link not found in DB", message: err.message })
+        );
+};

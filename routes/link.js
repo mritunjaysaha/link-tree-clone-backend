@@ -4,22 +4,29 @@ const router = express.Router();
 
 const { isSignedIn, isAuthenticated } = require("../controllers/auth");
 const { getUserById } = require("../controllers/user");
-const { createLink, getLinksList } = require("../controllers/link");
+const { createLink, getLinksList, deleteLink } = require("../controllers/link");
 
 router.param("userId", getUserById);
 
 /**
  * @route POST /api/link/:userId
- * @description create link route
+ * @description create link
  * @access private
  */
 router.post("/:userId", isSignedIn, isAuthenticated, createLink);
 
 /**
- * @route GET /api/user/link/:userId
+ * @route GET /api/link/:userId
  * @description get all the links created by the user
  * @access private
  */
 router.get("/:userId", isSignedIn, isAuthenticated, getLinksList);
+
+/**
+ * @route DELETE /api/link/:userId/:linkId
+ * @description  delete link
+ * @access private
+ */
+router.delete("/:userId/:linkId", isSignedIn, isAuthenticated, deleteLink);
 
 module.exports = router;

@@ -7,7 +7,7 @@ exports.signUp = (req, res) => {
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
-        return res.status(422).json({ error: errors.array()[0].msg });
+        return res.status(422).json({ error: errors.errors[0].msg });
     }
 
     const user = new User(req.body);
@@ -16,7 +16,7 @@ exports.signUp = (req, res) => {
         console.log(err);
         if (err) {
             return res.status(400).json({
-                err: "Not able to save in DB",
+                error: err.message,
             });
         }
         res.json({
