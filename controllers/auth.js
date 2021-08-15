@@ -13,7 +13,6 @@ exports.signUp = (req, res) => {
     const user = new User(req.body);
 
     user.save((err, user) => {
-        console.log(err);
         if (err) {
             return res.status(400).json({
                 error: err.message,
@@ -29,8 +28,6 @@ exports.signUp = (req, res) => {
 
 exports.signIn = (req, res) => {
     const errors = validationResult(req);
-
-    console.log({ errors });
 
     if (!errors.isEmpty()) {
         return res.status(400).json({

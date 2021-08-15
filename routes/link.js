@@ -4,7 +4,12 @@ const router = express.Router();
 
 const { isSignedIn, isAuthenticated } = require("../controllers/auth");
 const { getUserById } = require("../controllers/user");
-const { createLink, getLinksList, deleteLink } = require("../controllers/link");
+const {
+    createLink,
+    getLinksList,
+    updateLink,
+    deleteLink,
+} = require("../controllers/link");
 
 router.param("userId", getUserById);
 
@@ -21,6 +26,13 @@ router.post("/:userId", isSignedIn, isAuthenticated, createLink);
  * @access private
  */
 router.get("/:userId", isSignedIn, isAuthenticated, getLinksList);
+
+/**
+ * @route PUT /api/link/:userId/:linkId
+ * @description update link
+ * @access private
+ */
+router.put("/:userId/:linkId", isSignedIn, isAuthenticated, updateLink);
 
 /**
  * @route DELETE /api/link/:userId/:linkId

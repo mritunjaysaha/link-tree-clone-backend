@@ -38,16 +38,72 @@ exports.getLinksList = (req, res) => {
         });
 };
 
-exports.updateLink = (req, res) => {};
-
-exports.deleteLink = (req, res) => {
-    Link.findByIdAndRemove(req.params.linkId)
-        .then((data) =>
-            res.json({ message: "Link deleted successfully", data })
-        )
+exports.updateLink = (req, res) => {
+    Link.findByIdAndUpdate(req.params.linkId, req.body)
+        .then((data) => {
+            res.json({ message: "link updated successfully", data });
+        })
         .catch((err) =>
             res
-                .json(404)
-                .json({ error: "link not found in DB", message: err.message })
+                .status(400)
+                .json({ error: "Failed to update link", message: err.message })
         );
+};
+
+exports.deleteLink = (req, res) => {
+    const { userId, linkId } = req.params;
+
+    // Link.findByIdAndRemove(linkId)
+    //     .then((data) =>
+    //         res.json({ message: "Link deleted successfully", data })
+    //     )
+    //     .catch((err) =>
+    //         res
+    //             .json(404)
+    //             .json({ error: "link not found in DB", message: err.message })
+    //     );
+
+    // let link = req.link;
+
+    // link.remove((err, deleteLink) => {
+    //     if (err) {
+    //         return res.status(400).json({
+    //             error: "Failed to delete the link",
+    //         });
+    //     }
+
+    //     res.json({ message: "Deleted successfully" });
+    // });
+
+    User.findByIdAndUpdate(
+        { _id: userId },
+        { $pull: { links: linkId } },
+        (err, user) => {
+            if (err) {
+                return res.status(400).json({
+                    error: "Not authorized to update information",
+                });
+            }
+
+            Link.findByIdAndRemove(linkId)
+                .then((data) => {
+                    user.salt = undefined;
+                    user.encrypted_password = undefined;
+                    user.createdAt = undefined;
+                    user.updatedAt = undefined;
+
+                    return res.json({
+                        message: "Link deleted successfully",
+                        data,
+                        user,
+                    });
+                })
+                .catch((err) =>
+                    res.json(404).json({
+                        error: "link not found in DB",
+                        message: err.message,
+                    })
+                );
+        }
+    );
 };
