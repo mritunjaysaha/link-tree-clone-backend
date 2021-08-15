@@ -8,15 +8,15 @@ const User = require("../models/user");
 router.post(
     "/signup",
     [
-        check("name", "name should be at least 3 character")
+        check("username", "name should be at least 3 character")
             .isLength({
                 min: 3,
                 max: 32,
             })
             .custom((value) => {
-                return User.findOne({ name: value }).then((user) => {
+                return User.findOne({ username: value }).then((user) => {
                     if (user) {
-                        return Promise.reject("Name already in use");
+                        return Promise.reject("username already in use");
                     }
                 });
             }),
@@ -31,7 +31,7 @@ router.post(
 router.post(
     "/login",
     [
-        check("name", "name is required").notEmpty(),
+        check("username", "name is required").notEmpty(),
         check("password", "password field is required").isLength({
             min: 1,
         }),
@@ -41,7 +41,7 @@ router.post(
 
 router.get("/logout", signOut);
 
-router.get("/test", isSignedIn, (req, res) => {
+router.get("/isSignedIn", isSignedIn, (req, res) => {
     res.json(req.auth);
 });
 

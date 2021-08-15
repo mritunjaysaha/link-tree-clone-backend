@@ -13,13 +13,14 @@ exports.signUp = (req, res) => {
     const user = new User(req.body);
 
     user.save((err, user) => {
+        console.log(err);
         if (err) {
             return res.status(400).json({
                 err: "Not able to save in DB",
             });
         }
         res.json({
-            name: user.name,
+            username: user.username,
             email: user.email,
             id: user._id,
         });
@@ -37,9 +38,9 @@ exports.signIn = (req, res) => {
         });
     }
 
-    const { name, password } = req.body;
+    const { username, password } = req.body;
 
-    User.findOne({ name }, (err, user) => {
+    User.findOne({ username }, (err, user) => {
         if (err || !user) {
             return res.status(400).json({
                 error: "USER email doesn't exist",
@@ -59,9 +60,9 @@ exports.signIn = (req, res) => {
         res.cookie("token", token, { expire: new Date() + 99999 });
 
         // send response to frontend
-        const { _id, name, email } = user;
+        const { _id, username, email } = user;
 
-        return res.json({ token, user: { _id, name, email } });
+        return res.json({ token, user: { _id, username, email } });
     });
 };
 
