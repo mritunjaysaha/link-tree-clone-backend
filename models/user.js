@@ -19,12 +19,14 @@ const UserSchema = new Schema(
             trim: true,
             unique: true,
         },
-
         encrypted_password: {
             type: String,
             required: true,
         },
-        display: { data: Buffer, contentType: String },
+        photo: {
+            data: Buffer,
+            contentType: String,
+        },
         salt: String,
         links: [
             {

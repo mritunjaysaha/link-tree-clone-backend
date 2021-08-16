@@ -53,28 +53,6 @@ exports.updateLink = (req, res) => {
 exports.deleteLink = (req, res) => {
     const { userId, linkId } = req.params;
 
-    // Link.findByIdAndRemove(linkId)
-    //     .then((data) =>
-    //         res.json({ message: "Link deleted successfully", data })
-    //     )
-    //     .catch((err) =>
-    //         res
-    //             .json(404)
-    //             .json({ error: "link not found in DB", message: err.message })
-    //     );
-
-    // let link = req.link;
-
-    // link.remove((err, deleteLink) => {
-    //     if (err) {
-    //         return res.status(400).json({
-    //             error: "Failed to delete the link",
-    //         });
-    //     }
-
-    //     res.json({ message: "Deleted successfully" });
-    // });
-
     User.findByIdAndUpdate(
         { _id: userId },
         { $pull: { links: linkId } },

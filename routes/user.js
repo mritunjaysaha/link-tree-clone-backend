@@ -4,9 +4,9 @@ const router = express.Router();
 const {
     getUser,
     getUserById,
-    getLinksList,
     getAllUsers,
     updateUser,
+    updateUserPhoto,
 } = require("../controllers/user");
 
 const { isAuthenticated, isSignedIn } = require("../controllers/auth");
@@ -33,5 +33,12 @@ router.get("/:userId", isSignedIn, isAuthenticated, getUser);
  * @access private
  */
 router.put("/:userId", isSignedIn, isAuthenticated, updateUser);
+
+/**
+ * @route POST /api/user/photo/:userId
+ * @description add photo
+ * @access private
+ */
+router.post("/photo/:userId", isSignedIn, isAuthenticated, updateUserPhoto);
 
 module.exports = router;
