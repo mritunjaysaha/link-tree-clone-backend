@@ -2,7 +2,6 @@ const User = require("../models/user");
 const formidable = require("formidable");
 const fs = require("fs");
 const _ = require("lodash");
-const { profile } = require("console");
 
 exports.getUserById = (req, res, next, id) => {
     User.findById(id).exec((err, user) => {
@@ -103,4 +102,19 @@ exports.updateUserPhoto = (req, res) => {
             }
         );
     });
+};
+
+exports.getPhoto = (req, res) => {
+    const { username } = req.params;
+
+    User.findOne({ username })
+        .then((data) => {
+            console.log({ data });
+            res.json({ data: data.photo });
+        })
+        .catch((err) =>
+            res
+                .status(404)
+                .json({ error: "image not found", message: err.message })
+        );
 };
