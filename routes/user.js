@@ -12,6 +12,8 @@ const {
 
 const { isAuthenticated, isSignedIn } = require("../controllers/auth");
 
+const User = require("../models/user");
+
 router.param("userId", getUserById);
 
 /**
@@ -47,6 +49,17 @@ router.post("/photo/:userId", isSignedIn, isAuthenticated, updateUserPhoto);
  * @description read photo
  * @access public
  */
-router.get("/photo/:username", getPhoto);
+// router.get("/photo/:username", getPhoto);
+
+router.get("/photo/:userId", (req, res) => {
+    User.findById(req.profile._id, (err, user) => {
+        if (err) {
+            res.status(404).json({ error: "User not found" });
+        }
+
+        console.log({ user });
+        res.json(user);
+    });
+});
 
 module.exports = router;

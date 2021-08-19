@@ -11,6 +11,8 @@ exports.getUserById = (req, res, next, id) => {
             });
         }
         req.profile = user;
+
+        // console.log(req.profile);
         next();
     });
 };
@@ -62,29 +64,31 @@ exports.updateUserPhoto = (req, res) => {
     let form = new formidable.IncomingForm();
     form.keepExtensions = true;
 
+    console.log(form);
+
     form.parse(req, (err, fields, file) => {
         if (err) {
             return res.status(400).json({
                 error: "Problem with image",
             });
         }
-        // updating code
+
         let profile = req.profile;
-        profile = _.extend(profile, fields);
 
-        // handle file
-        if (file.photo) {
-            profile.photo.data = fs.readFileSync(file.photo.path);
-            profile.photo.contentType = file.photo.type;
+        // console.log(fields);
 
-            console.log(profile.photo);
+        // const photoArr = fields.photo.split("base64,");
 
-            console.log({ profile });
-        }
+        profile.photo.data = fields.photo;
+        profile.photo.contentType = "image/jpeg";
 
         User.findByIdAndUpdate(
             { _id: req.profile._id },
-            { $set: { photo: profile.photo } },
+            {
+                $set: {
+                    photo: profile.photo,
+                },
+            },
             { new: true },
             (err, user) => {
                 if (err) {
@@ -105,12 +109,15 @@ exports.updateUserPhoto = (req, res) => {
 };
 
 exports.getPhoto = (req, res) => {
-    const { username } = req.params;
-
     User.findOne({ username })
-        .then((data) => {
-            console.log({ data });
-            res.json({ data: data.photo });
+        .then((res) => {
+            console.log({ res });
+
+            if (res.user.photo.data) {
+                res.set("Content-Type", "image/jpeg");
+            }
+
+            return res.send(req.user.photo.data);
         })
         .catch((err) =>
             res

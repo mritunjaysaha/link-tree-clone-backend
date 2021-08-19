@@ -31,7 +31,7 @@ router.post(
 router.post(
     "/login",
     [
-        check("username", "name is required").notEmpty(),
+        // check("username", "name is required").notEmpty(),
         check("password", "password field is required").isLength({
             min: 1,
         }),
