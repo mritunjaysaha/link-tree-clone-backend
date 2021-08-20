@@ -12,7 +12,6 @@ exports.getUserById = (req, res, next, id) => {
         }
         req.profile = user;
 
-        // console.log(req.profile);
         next();
     });
 };
@@ -75,10 +74,6 @@ exports.updateUserPhoto = (req, res) => {
 
         let profile = req.profile;
 
-        // console.log(fields);
-
-        // const photoArr = fields.photo.split("base64,");
-
         profile.photo.data = fields.photo;
         profile.photo.contentType = "image/jpeg";
 
@@ -111,8 +106,6 @@ exports.updateUserPhoto = (req, res) => {
 exports.getPhoto = (req, res) => {
     User.findOne({ username })
         .then((res) => {
-            console.log({ res });
-
             if (res.user.photo.data) {
                 res.set("Content-Type", "image/jpeg");
             }
@@ -124,4 +117,21 @@ exports.getPhoto = (req, res) => {
                 .status(404)
                 .json({ error: "image not found", message: err.message })
         );
+};
+
+exports.deletePhoto = (req, res) => {
+    User.findByIdAndUpdate(
+        { _id: req.profile._id },
+        { $set: { photo: "" } },
+        { new: true },
+        (err, user) => {
+            if (err) {
+                res.status(400).json({
+                    error: "Not authorized to update information",
+                });
+            }
+
+            res.json(user);
+        }
+    );
 };
