@@ -97,26 +97,24 @@ exports.updateUserPhoto = (req, res) => {
                 user.createdAt = undefined;
                 user.updatedAt = undefined;
 
-                return res.json(user);
+                return res.json({ photo: user.photo.data });
             }
         );
     });
 };
 
 exports.getPhoto = (req, res) => {
-    User.findOne({ username })
-        .then((res) => {
-            if (res.user.photo.data) {
-                res.set("Content-Type", "image/jpeg");
-            }
+    const { username } = req.params;
+    console.log({ username });
+    User.findOne({ username }, (err, user) => {
+        if (err) {
+            res.status(404).json({ error: "User not found" });
+        }
 
-            return res.send(req.user.photo.data);
-        })
-        .catch((err) =>
-            res
-                .status(404)
-                .json({ error: "image not found", message: err.message })
-        );
+        console.log({ user });
+
+        res.json({ photo: user.photo.data });
+    });
 };
 
 exports.deletePhoto = (req, res) => {

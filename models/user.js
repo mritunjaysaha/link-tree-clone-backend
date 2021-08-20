@@ -19,21 +19,28 @@ const UserSchema = new Schema(
             trim: true,
             unique: true,
         },
-        encrypted_password: {
-            type: String,
-            required: true,
-        },
         photo: {
             data: Buffer,
             contentType: String,
         },
-        salt: String,
         links: [
             {
                 type: Schema.Types.ObjectId,
                 ref: "Link",
             },
         ],
+        profileTitle: {
+            type: String,
+        },
+        bio: {
+            type: String,
+        },
+        encrypted_password: {
+            type: String,
+            required: true,
+        },
+
+        salt: String,
     },
     { timestamps: true }
 );
