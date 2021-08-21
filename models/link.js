@@ -4,13 +4,23 @@ const { Schema } = mongoose;
 
 const LinkSchema = new Schema(
     {
-        name: { type: String },
-        url: { type: String },
+        order: {
+            type: Number,
+            default: 0,
+        },
+        name: {
+            type: String,
+        },
+        url: {
+            type: String,
+        },
         author: {
             type: Schema.Types.ObjectId,
             ref: "User",
         },
-        thumbnail: { type: String },
+        thumbnail: {
+            type: String,
+        },
     },
     { timestamps: true }
 );

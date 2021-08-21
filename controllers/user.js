@@ -25,6 +25,23 @@ exports.getUser = (req, res) => {
     return res.json(req.profile);
 };
 
+exports.getUserByUsername = (req, res) => {
+    const { username } = req.params;
+
+    User.findOne({ username }, (err, user) => {
+        if (err) {
+            res.json({ error: "user not found", message: err.message });
+        }
+
+        user.salt = undefined;
+        user.encrypted_password = undefined;
+        user.createdAt = undefined;
+        user.updatedAt = undefined;
+
+        res.json({ user });
+    });
+};
+
 exports.getAllUsers = (req, res) => {
     User.find().exec((err, users) => {
         if (err || !users) {
@@ -62,8 +79,6 @@ exports.updateUser = (req, res) => {
 exports.updateUserPhoto = (req, res) => {
     let form = new formidable.IncomingForm();
     form.keepExtensions = true;
-
-    console.log(form);
 
     form.parse(req, (err, fields, file) => {
         if (err) {
@@ -105,13 +120,10 @@ exports.updateUserPhoto = (req, res) => {
 
 exports.getPhoto = (req, res) => {
     const { username } = req.params;
-    console.log({ username });
     User.findOne({ username }, (err, user) => {
         if (err) {
             res.status(404).json({ error: "User not found" });
         }
-
-        console.log({ user });
 
         res.json({ photo: user.photo.data });
     });

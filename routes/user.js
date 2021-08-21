@@ -3,6 +3,7 @@ const router = express.Router();
 
 const {
     getUser,
+    getUserByUsername,
     getUserById,
     getAllUsers,
     updateUser,
@@ -13,10 +14,9 @@ const {
 
 const { isAuthenticated, isSignedIn } = require("../controllers/auth");
 
-const User = require("../models/user");
-
 router.param("userId", getUserById);
 
+// !PUBLIC ROUTES
 /**
  * @route GET /api/user/
  * @description get all users
@@ -24,6 +24,14 @@ router.param("userId", getUserById);
  */
 router.get("/", getAllUsers);
 
+/**
+ * @route GET /api/user/:username
+ * @description get the user details
+ * @access public
+ */
+router.get("/userview/:username", getUserByUsername);
+
+// !PRIVATE ROUTES
 /**
  * @route GET /api/user/:userId
  * @description get the user details
@@ -58,16 +66,5 @@ router.get("/photo/:username", getPhoto);
  * @access private
  */
 router.delete("/photo/:userId", deletePhoto);
-
-// router.get("/photo/:userId", (req, res) => {
-//     User.findById(req.profile._id, (err, user) => {
-//         if (err) {
-//             res.status(404).json({ error: "User not found" });
-//         }
-
-//         console.log({ user });
-//         res.json(user);
-//     });
-// });
 
 module.exports = router;

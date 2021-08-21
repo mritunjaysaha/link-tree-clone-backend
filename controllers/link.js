@@ -24,7 +24,8 @@ exports.createLink = (req, res) => {
 };
 
 exports.getLinksList = (req, res) => {
-    User.findById(req.profile._id)
+    const { username } = req.params;
+    User.findOne({ username })
         .populate("links")
         .exec((err, user) => {
             if (err) {
@@ -34,7 +35,7 @@ exports.getLinksList = (req, res) => {
                 });
             }
 
-            return res.json(user);
+            return res.json({ links: user.links });
         });
 };
 

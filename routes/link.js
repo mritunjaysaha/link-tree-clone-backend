@@ -13,19 +13,21 @@ const {
 
 router.param("userId", getUserById);
 
+// !PUBLIC ROUTES
+/**
+ * @route GET /api/link/:username
+ * @description get all the links created by the user
+ * @access public
+ */
+router.get("/:username", getLinksList);
+
+// !PRIVATE ROUTES
 /**
  * @route POST /api/link/:userId
  * @description create link
  * @access private
  */
 router.post("/:userId", isSignedIn, isAuthenticated, createLink);
-
-/**
- * @route GET /api/link/:userId
- * @description get all the links created by the user
- * @access private
- */
-router.get("/:userId", isSignedIn, isAuthenticated, getLinksList);
 
 /**
  * @route PUT /api/link/:userId/:linkId
