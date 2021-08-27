@@ -28,18 +28,19 @@ exports.getUser = (req, res) => {
 exports.getUserByUsername = (req, res) => {
     const { username } = req.params;
 
-    User.findOne({ username }, (err, user) => {
-        if (err) {
-            res.json({ error: "user not found", message: err.message });
-        }
+    User.findOne({ username })
+        .populate("links")
+        .exec((err, user) => {
+            if (err) {
+                res.json({ error: "user not found", message: err.message });
+            }
 
-        user.salt = undefined;
-        user.encrypted_password = undefined;
-        user.createdAt = undefined;
-        user.updatedAt = undefined;
-
-        res.json({ user });
-    });
+            user.salt = undefined;
+            user.encrypted_password = undefined;
+            user.createdAt = undefined;
+            user.updatedAt = undefined;
+            res.json(user);
+        });
 };
 
 exports.getAllUsers = (req, res) => {

@@ -25,7 +25,7 @@ router.param("userId", getUserById);
 router.get("/", getAllUsers);
 
 /**
- * @route GET /api/user/:username
+ * @route GET /api/user/userview/:username
  * @description get the user details
  * @access public
  */

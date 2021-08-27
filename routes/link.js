@@ -13,7 +13,7 @@ const {
 
 router.param("userId", getUserById);
 
-// !PUBLIC ROUTES
+//! PUBLIC ROUTES
 /**
  * @route GET /api/link/:username
  * @description get all the links created by the user
@@ -21,7 +21,7 @@ router.param("userId", getUserById);
  */
 router.get("/:username", getLinksList);
 
-// !PRIVATE ROUTES
+//! PRIVATE ROUTES
 /**
  * @route POST /api/link/:userId
  * @description create link

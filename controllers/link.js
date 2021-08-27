@@ -18,7 +18,7 @@ exports.createLink = (req, res) => {
                 });
             }
 
-            return res.json(user);
+            return res.json({ currentLink: user.links[user.links.length - 1] });
         }
     );
 };
