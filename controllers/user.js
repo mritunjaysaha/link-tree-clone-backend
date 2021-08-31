@@ -21,6 +21,8 @@ exports.getUser = (req, res) => {
     req.profile.encrypted_password = undefined;
     req.profile.createdAt = undefined;
     req.profile.updatedAt = undefined;
+    req.profile.photo = "";
+
     return res.json(req.profile);
 };
 
