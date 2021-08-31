@@ -21,7 +21,6 @@ exports.getUser = (req, res) => {
     req.profile.encrypted_password = undefined;
     req.profile.createdAt = undefined;
     req.profile.updatedAt = undefined;
-
     return res.json(req.profile);
 };
 
@@ -75,6 +74,16 @@ exports.updateUser = (req, res) => {
             return res.json(user);
         }
     );
+};
+
+exports.deleteUser = (req, res) => {
+    User.findByIdAndRemove(req.profile._id)
+        .then((res) => res.json({ message: "successfully deleted" }))
+        .catch((err) =>
+            res
+                .status(400)
+                .json({ error: "failed to delete user", message: err.message })
+        );
 };
 
 exports.updateUserPhoto = (req, res) => {

@@ -7,6 +7,7 @@ const {
     getUserById,
     getAllUsers,
     updateUser,
+    deleteUser,
     updateUserPhoto,
     getPhoto,
     deletePhoto,
@@ -45,6 +46,13 @@ router.get("/:userId", isSignedIn, isAuthenticated, getUser);
  * @access private
  */
 router.put("/:userId", isSignedIn, isAuthenticated, updateUser);
+
+/**
+ * @route DELETE /api/user/:userId
+ * @description delete user
+ * @access private
+ */
+router.delete("/:userId", isSignedIn, isAuthenticated, deleteUser);
 
 /**
  * @route POST /api/user/photo/:userId
