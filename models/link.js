@@ -4,6 +4,10 @@ const { Schema } = mongoose;
 
 const LinkSchema = new Schema(
     {
+        active: {
+            type: Boolean,
+            default: false,
+        },
         order: {
             type: Number,
             default: 0,
