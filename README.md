@@ -11,7 +11,7 @@ npm install
 2. Install `nodemon`
 
 ```bash
-npm i nodemon
+npm i -D nodemon
 ```
 
 ### Set environment variables
